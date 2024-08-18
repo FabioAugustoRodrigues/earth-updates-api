@@ -2,21 +2,29 @@
 
 namespace App\Exceptions;
 
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-
-abstract class ApplicationException extends Exception
+class DomainException extends ApplicationException
 {
-    abstract public function status(): int;
+    private $errors;
+    private $status;
 
-    abstract public function help(): string;
-
-    abstract public function error(): string;
-
-    public function render(Request $request): Response
+    public function __construct(array $errors, int $status=500)
     {
-        $error = new Error($this->help(), $this->error());
-        return response($error->toArray(), $this->status());
+        $this->errors = $errors;
+        $this->status = $status;
+    }
+
+    public function status(): int
+    {
+        return $this->status;
+    }
+
+    public function help(): string
+    {
+        return "";
+    }
+
+    public function error(): string
+    {
+        return implode("\n", $this->errors);
     }
 }
