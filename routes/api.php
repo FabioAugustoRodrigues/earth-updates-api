@@ -3,11 +3,8 @@
 use App\Http\Controllers\API\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::fallback(function () {
-    return response()->json(['message' => 'Route not found'], 404);
+Route::post('users/login', [UserController::class, 'login']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::post('/users', [UserController::class, 'store']);
 });
-
-
-
-// USERS
-Route::post('/users', [UserController::class, 'store']);
