@@ -15,7 +15,7 @@ class UserService
     {
         $existingUser = $this->findUserByEmail($data['email']);
         if ($existingUser) {
-            throw new DomainException(['E-mail is alrady in use.'], 409);
+            throw new DomainException(['E-mail is already in use.'], 409);
         }
 
         $data['password'] = Hash::make($data['password']);
