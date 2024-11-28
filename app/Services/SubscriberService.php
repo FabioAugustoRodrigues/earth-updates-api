@@ -23,4 +23,21 @@ class SubscriberService
 
         return Subscriber::create($data);
     }
+
+    public function verifyToken(string $token)
+    {
+        $subscriber = $this->findSubscriberByToken($token);
+        if (!$subscriber) {
+            throw new DomainException(['Subscriber not found.'], 404);
+        }
+
+        if ($subscriber->status !== SubscriberStatus::WAITING_VERIFICATION) {
+            throw new DomainException(['Subscriber already verified.'], 400);
+        }
+
+        $subscriber->status = SubscriberStatus::ACTIVE;
+        $subscriber->save();
+
+        return $subscriber;
+    }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\Subscriber\CreateSubscriberRequest;
 use App\Http\Resources\Subscriber\SubscriberResource;
 use App\Mail\SubscriberConfirmationEmail;
 use App\Services\SubscriberService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class SubscriberController extends BaseController
@@ -28,4 +29,10 @@ class SubscriberController extends BaseController
         return $this->sendResponse(new SubscriberResource($subscriber), "Subscriber created successfully and confirmation email sent.", 201);
     }
 
+    public function verifyToken(Request $request, $token)
+    {
+        $this->subscriberService->verifyToken($token);
+
+        return $this->sendResponse(null, "Subscriber verified successfully.", 200);
+    }
 }

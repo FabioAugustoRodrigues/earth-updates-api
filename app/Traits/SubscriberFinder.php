@@ -24,4 +24,11 @@ trait SubscriberFinder
 
         return $subscriber;
     }
+
+    public function findSubscriberByToken(string $token): Subscriber|null
+    {
+        $subscriber = Subscriber::where('token', '=', $token)->first();
+
+        return $subscriber;
+    }
 }

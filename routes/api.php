@@ -18,3 +18,4 @@ Route::middleware('auth:api')->group(function () {
 
 
 Route::post('/subscribers', [SubscriberController::class, 'store']);
+Route::post('/subscribers/confirm-token/{token}', [SubscriberController::class, 'verifyToken']);
