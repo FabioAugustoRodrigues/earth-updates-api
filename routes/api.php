@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\PostController;
+use App\Http\Controllers\API\SubscriberController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,3 +15,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/posts/week', [PostController::class, 'getPostsThisWeek']);
     Route::get('/posts/all', [PostController::class, 'getAllPosts']);
 });
+
+
+Route::post('/subscribers', [SubscriberController::class, 'store']);
