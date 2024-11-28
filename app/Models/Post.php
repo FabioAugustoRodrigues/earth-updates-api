@@ -11,6 +11,7 @@ class Post extends Model
 
     protected $fillable = [
         'title',
-        'content'
+        'content',
+        'sent_to_emails'
     ];
 }

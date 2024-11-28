@@ -12,6 +12,8 @@ class PostService
 
     public function create(array $data)
     {
+        $data['sent_to_emails'] = 0;
+
         return Post::create($data);
     }
 
