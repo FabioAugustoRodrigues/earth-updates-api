@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\API\BaseController;
 use App\Http\Requests\Subscriber\CreateSubscriberRequest;
 use App\Http\Resources\Subscriber\SubscriberResource;
-use App\Mail\SubscriberConfirmationEmail;
+use App\Mail\SubscriberEmailVerification;
 use App\Services\SubscriberService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -24,7 +24,7 @@ class SubscriberController extends BaseController
     {
         $subscriber = $this->subscriberService->create($request->validated());
 
-        Mail::to($subscriber->email)->send(new SubscriberConfirmationEmail($subscriber));
+        Mail::to($subscriber->email)->send(new SubscriberEmailVerification($subscriber));
 
         return $this->sendResponse(new SubscriberResource($subscriber), "Subscriber created successfully and confirmation email sent.", 201);
     }

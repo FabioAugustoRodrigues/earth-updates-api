@@ -2,7 +2,8 @@
 <html>
 
 <head>
-    <title>Today's Posts</title>
+    <title>Email Verification</title>
+
     <style>
         body {
             font-family: 'Verdana', sans-serif;
@@ -92,29 +93,16 @@
 
 <body>
     <div class="container">
-        <h1>Today's Posts</h1>
+        <h1>Email Verification</h1>
+        <p>Hello, {{ $subscriber->name }}! Welcome to TerraUpdates Newsletter!</p>
+        <p>To verify your email address and get started, click the button below:</p>
 
-        @if($posts->isEmpty())
-        <p>No new posts were published today. Check back tomorrow!</p>
-        @else
-        @foreach($posts as $post)
-        <div class="post">
-            <div class="post-title">
-                <a href="{{ $post->url ?? '#' }}">{{ $post->title }}</a>
-            </div>
-            <div class="post-content">
-                {{ Str::limit($post->content, 120) }}
-            </div>
-            <div class="post-date">
-                Published on: {{ $post->created_at->format('F j, Y, g:i a') }}
-            </div>
-        </div>
-        @endforeach
-        @endif
+        <a href="{{ $app_url }}/subscribers/{{  $subscriber->email }}/verify/{{ $subscriber->token }}" class="btn-theme">
+            Verify Email
+        </a>
 
         <div class="footer">
-            <p>You're receiving this email because you're subscribed to our updates.</p>
-            <p><a href="#">Unsubscribe</a></p>
+            <p>If you didn't sign up, ignore this email.</p>
         </div>
     </div>
 </body>

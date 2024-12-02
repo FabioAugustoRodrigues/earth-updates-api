@@ -2,9 +2,10 @@
 <html>
 
 <head>
-    <title>Today's Posts</title>
+    <title>Email Verification</title>
+
     <style>
-        body {
+         body {
             font-family: 'Verdana', sans-serif;
             line-height: 1.6;
             color: #444;
@@ -92,31 +93,40 @@
 
 <body>
     <div class="container">
-        <h1>Today's Posts</h1>
+        <h1>Email Verification</h1>
 
-        @if($posts->isEmpty())
-        <p>No new posts were published today. Check back tomorrow!</p>
-        @else
-        @foreach($posts as $post)
-        <div class="post">
-            <div class="post-title">
-                <a href="{{ $post->url ?? '#' }}">{{ $post->title }}</a>
-            </div>
-            <div class="post-content">
-                {{ Str::limit($post->content, 120) }}
-            </div>
-            <div class="post-date">
-                Published on: {{ $post->created_at->format('F j, Y, g:i a') }}
-            </div>
-        </div>
-        @endforeach
-        @endif
-
-        <div class="footer">
-            <p>You're receiving this email because you're subscribed to our updates.</p>
-            <p><a href="#">Unsubscribe</a></p>
-        </div>
+        <p id="success-message" class="success-message" style="display: none;"></p>
+        <p id="error-message" class="error-message" style="display: none;"></p>
     </div>
+
+    <input type="hidden" id="token" value="{{ $token }}">
+    <input type="hidden" id="email" value="{{ $email }}">
+    <input type="hidden" id="csrf_token" value="{{ csrf_token() }}">
 </body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        const token = $('#token').val();
+        const email = $('#email').val();
+        const csrf_token = $('#csrf_token').val();
+
+        $.ajax({
+            url: `/api/subscribers/${email}/verify/${token}`,
+            method: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': csrf_token
+            },
+            success: function(response) {
+                $('#success-message').text('Your email has been successfully verified!').show();
+                $('#error-message').hide();
+            },
+            error: function(error) {
+                $('#error-message').text('There was an issue verifying your email. Please try again later.').show();
+                $('#success-message').hide();
+            }
+        });
+    })
+</script>
 
 </html>

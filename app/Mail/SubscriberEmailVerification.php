@@ -7,7 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SubscriberConfirmationEmail extends Mailable
+class SubscriberEmailVerification extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -26,8 +26,8 @@ class SubscriberConfirmationEmail extends Mailable
         $app_url = env('APP_URL');
 
         return $this->from($from_email, $from_name)
-            ->subject('Confirmation email')
-            ->view('mail.subscriber_confirmation_email')
+            ->subject('Email Verification')
+            ->view('mail.subscriber_verification_email')
             ->with(['subscriber' => $this->subscriber, 'app_url' => $app_url]);
     }
 }
