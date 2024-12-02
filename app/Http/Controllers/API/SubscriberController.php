@@ -35,4 +35,11 @@ class SubscriberController extends BaseController
 
         return $this->sendResponse(null, "Subscriber verified successfully.", 200);
     }
+
+    public function unsubscribe(Request $request, $email, $token)
+    {
+        $this->subscriberService->delete($email, $token);
+        
+        return $this->sendResponse(null, "Subscriber unsubscribed successfully.", 200);
+    }
 }

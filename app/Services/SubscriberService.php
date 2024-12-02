@@ -42,6 +42,20 @@ class SubscriberService
         return $subscriber;
     }
 
+    public function delete(string $email, string $token)
+    {
+        $subscriber = $this->findSubscriberByEmail($email);
+        if (!$subscriber) {
+            throw new DomainException(['Subscriber not found.'], 404);
+        }
+
+        if ($subscriber->token !== $token) {
+            throw new DomainException(['Invalid token.'], 400);
+        }
+
+        $subscriber->delete();
+    }
+
     public function generateToken(int $length = 10): string
     {
         return substr(md5(microtime()), 0, $length);
