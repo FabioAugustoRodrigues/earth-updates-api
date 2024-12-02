@@ -18,7 +18,7 @@ class SubscriberService
             throw new DomainException(['E-mail is already in use.'], 409);
         }
 
-        $data['token'] = substr(md5(microtime()), 0, 10);
+        $data['token'] = $this->generateToken();
         $data['status'] = SubscriberStatus::WAITING_VERIFICATION;
 
         return Subscriber::create($data);
@@ -36,8 +36,14 @@ class SubscriberService
         }
 
         $subscriber->status = SubscriberStatus::ACTIVE;
+        $subscriber->token = $this->generateToken();
         $subscriber->save();
 
         return $subscriber;
+    }
+
+    public function generateToken(int $length = 10): string
+    {
+        return substr(md5(microtime()), 0, $length);
     }
 }
