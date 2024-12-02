@@ -24,12 +24,9 @@ class SubscriberService
         return Subscriber::create($data);
     }
 
-    public function verifyToken(string $token)
+    public function verifyToken(string $email, string $token)
     {
-        $subscriber = $this->findSubscriberByToken($token);
-        if (!$subscriber) {
-            throw new DomainException(['Subscriber not found.'], 404);
-        }
+        $subscriber = $this->verifySubscriberByEmailAndToken($email, $token);
 
         if ($subscriber->status !== SubscriberStatus::WAITING_VERIFICATION) {
             throw new DomainException(['Subscriber already verified.'], 400);
@@ -44,6 +41,13 @@ class SubscriberService
 
     public function delete(string $email, string $token)
     {
+        $subscriber = $this->verifySubscriberByEmailAndToken($email, $token);
+
+        $subscriber->delete();
+    }
+
+    public function verifySubscriberByEmailAndToken(string $email, string $token): Subscriber
+    {
         $subscriber = $this->findSubscriberByEmail($email);
         if (!$subscriber) {
             throw new DomainException(['Subscriber not found.'], 404);
@@ -53,7 +57,7 @@ class SubscriberService
             throw new DomainException(['Invalid token.'], 400);
         }
 
-        $subscriber->delete();
+        return $subscriber;
     }
 
     public function generateToken(int $length = 10): string

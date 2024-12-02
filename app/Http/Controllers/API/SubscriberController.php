@@ -29,9 +29,9 @@ class SubscriberController extends BaseController
         return $this->sendResponse(new SubscriberResource($subscriber), "Subscriber created successfully and confirmation email sent.", 201);
     }
 
-    public function verifyToken(Request $request, $token)
+    public function verifyToken(Request $request, $email, $token)
     {
-        $this->subscriberService->verifyToken($token);
+        $this->subscriberService->verifyToken($email, $token);
 
         return $this->sendResponse(null, "Subscriber verified successfully.", 200);
     }
