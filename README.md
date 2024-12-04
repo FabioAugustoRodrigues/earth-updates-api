@@ -5,6 +5,6 @@ Built for developers, this API offers seamless integration with your application
 
 While its primary intent is to function as a  newsletter tool, developers can adapt it to their specific needs and use cases.
 
-- [How does this work?](https://github.com/FabioAugustoRodrigues/terra-updates-api/blob/docs/docs/how_does_this_project_work.md)
-- [API Doc](https://github.com/FabioAugustoRodrigues/terra-updates-api/blob/docs/docs/api.md)
-- [Laravel Project Setup with Docker](https://github.com/FabioAugustoRodrigues/terra-updates-api/blob/docs/docs/laravel_project_setup_with_docker.md)
+- [How does this work?](https://github.com/FabioAugustoRodrigues/terra-updates-api/blob/main/docs/how_does_this_project_work.md)
+- [API Doc](https://github.com/FabioAugustoRodrigues/terra-updates-api/main/docs/docs/api.md)
+- [Laravel Project Setup with Docker](https://github.com/FabioAugustoRodrigues/terra-updates-api/main/docs/docs/laravel_project_setup_with_docker.md)
