@@ -22,7 +22,7 @@ class SendDailyEmails extends Command
     {
         $posts = Post::whereDate('created_at', today())->where('sent_to_emails', 0)->get();
 
-        $subscribers = Subscriber::all();
+        $subscribers = Subscriber::where('status', 1)->get();
 
         foreach ($subscribers as $subscriber) {
             Mail::to($subscriber->email)->send(new DailyPostEmail($posts));
