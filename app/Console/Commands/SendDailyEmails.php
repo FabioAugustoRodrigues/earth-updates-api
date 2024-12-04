@@ -22,11 +22,17 @@ class SendDailyEmails extends Command
     {
         $posts = Post::whereDate('created_at', today())->where('sent_to_emails', 0)->get();
 
-        $subscribers = Subscriber::where('status', 1)->get();
-
-        foreach ($subscribers as $subscriber) {
-            Mail::to($subscriber->email)->send(new DailyPostEmail($posts));
+        if ($posts->isEmpty()) {
+            $this->info('No posts to send today.');
+            return;
         }
+
+        $subscribers = Subscriber::where('status', 1)->select('email')->chunk(100, function ($chunk) use ($posts) {
+            foreach ($chunk as $subscriber) {
+                Mail::to($subscriber->email)
+                    ->queue(new DailyPostEmail($posts));
+            }
+        });
 
         Post::whereIn('id', $posts->pluck('id'))->update(['sent_to_emails' => 1]);
 
